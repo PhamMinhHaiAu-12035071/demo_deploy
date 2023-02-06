@@ -21,6 +21,11 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0.0'
 }
 
+def flutterAppName = localProperties.getProperty('flutter.appName')
+if(flutterAppName == null) {
+    flutterAppName = 'Demo Deploy'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -53,19 +58,6 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-
-        debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-            buildConfigField "String", "TYPE", '"I AM A DEBUG"'
-        }
-
-        beta {
-            signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
-            versionNameSuffix "-beta"
-            buildConfigField "String", "TYPE", '"I AM A BETA"'
-        }
     }
 
     // Specifies one flavor dimension.
@@ -79,15 +71,18 @@ android {
             dimension "version"
             applicationIdSuffix ".development"
             versionNameSuffix "-demo"
+            resValue "string", "app_name", flutterAppName
         }
         staging {
             dimension "version"
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
+            resValue "string", "app_name", flutterAppName
         }
 
         production {
             dimension "version"
+            resValue "string", "app_name", flutterAppName
         }
     }
 }
