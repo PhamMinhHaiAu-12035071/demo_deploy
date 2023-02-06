@@ -1,0 +1,62 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+fastlane_require 'dotenv'
+
+default_platform(:android)
+
+platform :android do
+
+    # Have an easy way to get the root of the project
+    def root_path
+        Dir.pwd.sub(/.*\Kfastlane/, '').sub(/.*\Kandroid/, '').sub(/.*\Kios/, '').sub(/.*\K\/\//, '')
+    end
+
+    # Have an easy way to run flutter tasks on the root of the project
+    lane :sh_on_root do |options|
+        command = options[:command]
+        sh("cd #{root_path} && #{command}")
+    end
+
+    private_lane :build_apk do
+        sh_on_root(command: "fvm use 3.7.0 && fvm flutter build apk --split-per-abi -t lib/main.dart")
+    end
+
+    private_lane :install_cider do
+        sh_on_root(command: "chmod u+x ./scripts/cider.sh")
+        sh_on_root(command: "./scripts/cider.sh")
+    end
+    lane :bump_patch do
+        install_cider
+        sh("cider bump patch --bump-build")
+    end
+
+    desc "Deploy to Firebase"
+    lane :deploy do
+        gradle(task: "clean assembleRelease")
+        bump_patch
+        build_apk
+        firebase_app_distribution(
+          app: ENV["ANDROID_FIREBASE_APP_DISTRIBUTION_APP"],
+          android_artifact_type: ENV["ANDROID_FIREBASE_ARTIFACT_TYPE"],
+          android_artifact_path: "#{root_path}/build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk",
+          release_notes: ENV["ANDROID_FIREBASE_APP_DISTRIBUTION_RELEASE_NOTES"],
+          firebase_cli_path: ENV["ANDROID_FIREBASE_CLI_PATH"],
+          firebase_cli_token: ENV["ANDROID_FIREBASE_CLI_TOKEN"],
+          groups: ENV["ANDROID_FIREBASE_APP_DISTRIBUTION_GROUPS"],
+        )
+    end
+
+
+end

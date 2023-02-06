@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="00: default_platform" time="0.000204">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="01: clean assembleRelease" time="10.115316">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="02: Switch to android bump_patch lane" time="0.000453">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="03: Switch to android install_cider lane" time="0.000191">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="04: Switch to android sh_on_root lane" time="0.000172">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="05: cd /Users/phamminhhaiau/Desktop/my_project/demo_deploy &amp;&amp; chmod u+x ./scripts/cider.sh" time="0.02636">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="06: Switch to android sh_on_root lane" time="0.000264">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="07: cd /Users/phamminhhaiau/Desktop/my_project/demo_deploy &amp;&amp; ./scripts/cider.sh" time="1.696822">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="08: cider bump patch --bump-build" time="0.372424">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="09: Switch to android build_apk lane" time="0.000143">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="10: Switch to android sh_on_root lane" time="9.3e-05">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="11: cd /Users/phamminhhaiau/Desktop/my_project/demo_deploy &amp;&amp; fvm use 3.7.0 &amp;&amp; fvm flutter build apk --split-per-abi -t lib/main.dart" time="10.26962">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="12: firebase_app_distribution" time="14.077152">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>
